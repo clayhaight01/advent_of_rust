@@ -1,7 +1,6 @@
 use std::fs;
 
 fn main() {
-    // --snip--
     let file_path = "C:/Users/User/Documents/GitHub/advent_of_rust/day_1/src/day_1_inputs.txt";
 
     let contents = fs::read_to_string(file_path)
