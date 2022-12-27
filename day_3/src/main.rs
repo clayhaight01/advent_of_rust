@@ -2,7 +2,7 @@ use std::fs;
 
 fn main() {
     // --snip--
-    let file_path = "C:/Users/User/Documents/GitHub/advent_of_rust/day_3/src/day_3_inputs.txt";
+    let file_path = "src/day_3_inputs.txt";
 
     let contents = fs::read_to_string(file_path)
         .expect("Should have been able to read the file");

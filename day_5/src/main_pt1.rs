@@ -5,7 +5,7 @@ fn main() {
     static CHAR_NUMS: [char; 10] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',];
     static STACK_COUNT: usize = 9;
 
-    let file_path = "C:/Users/User/Documents/GitHub/advent_of_rust/day_5/src/day_5_inputs.txt";
+    let file_path = "src/day_5_inputs.txt";
     let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
 
     let mut start = 0;
