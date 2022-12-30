@@ -10,63 +10,39 @@ where
         .collect()
 }
 
+fn vis(v: Vec<u32>) -> u32 {
+    if v.len() == 0 {return 0;}
+    let mut t = v.iter();
+    let th = t.nth(0).unwrap();
+    for (i,h) in t.enumerate() {
+        if h >= th {return (i+1).try_into().unwrap();}
+    }
+    (v.len() - 1).try_into().unwrap()
+}
+
 fn main() {
-    let file_path = "src/day_8_inputs_tst.txt";
+    let file_path = "src/day_8_inputs.txt";
 
     let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
 
     let mut forest: Vec<Vec<u32>> = vec![];
     // populate array
     for line in contents.lines() {forest.push(Vec::from_iter(line.chars().map(|c| c.to_digit(10).unwrap())));}
+    let mut forest_t = transpose(forest.clone());
 
-    println!("BEFORE");
-    println!("{:?}",forest);
-    let mut vis = 0;
-    let mut seen: Vec<Vec<bool>> = vec![vec![false; forest[0].len()]; forest.len()];
-    for i in 0..forest.len() {
-        let mut lmax = 0;
-        for left in 0..forest[i].len() {
-            if (forest[i][left] > lmax || left == 0) && !seen[i][left] {
-                lmax = forest[i][left];
-                vis += 1;
-                seen[i][left] = true;
-            }
-        }
-        let mut rmax = 0;
-        for right in (0..forest[i].len()).rev() {
-            if (forest[i][right] > rmax || right == forest[i].len() - 1) && !seen[i][right] {
-                rmax = forest[i][right];
-                vis += 1;
-                seen[i][right] = true;
-            }
+    let mut scenic_max = 0;
+    for r in 0..forest.len() {
+        for c in 0..forest[r].len() {
+            println!("[{r},{c}]");
+            let sl = vis(Vec::from_iter(forest[r][0..(c+1)].iter().rev().cloned()));
+            let sr = vis(Vec::from_iter(forest[r][c..forest[r].len()].iter().cloned()));
+            let su = vis(Vec::from_iter(forest_t[c][0..(r+1)].iter().rev().cloned()));
+            let sd = vis(Vec::from_iter(forest_t[c][r..forest_t[c].len()].iter().cloned()));
+            println!("scores: su {}, sl {}, sr {}, sd {}",su,sl,sr,sd);
+            let score = sl * sr * su * sd;
+            println!("score: {}",score);
+            if score > scenic_max {scenic_max = score;}
         }
     }
-    // let mut forest_t = transpose(forest);
-    // let mut seen_t = transpose(seen);
-    // for i in 0..forest_t.len() {
-    //     let mut lmax = 0;
-    //     for left in 0..forest_t[i].len() {
-    //         if (forest_t[i][left] > lmax || left == 0) && !seen_t[i][left] {
-    //             lmax = forest_t[i][left];
-    //             vis += 1;
-    //             seen_t[i][left] = true;
-    //         }
-    //     }
-    //     let mut rmax = 0;
-    //     for right in (0..forest_t[i].len()).rev() {
-    //         if (forest_t[i][right] > rmax || right == forest_t[i].len()-1) && !seen_t[i][right] {
-    //             rmax = forest_t[i][right];
-    //             vis += 1;
-    //             seen_t[i][right] = true;
-    //         }
-    //     }
-    // }
-    // forest = transpose(forest_t);
-    // seen = transpose(seen_t);
-    println!("AFTER");
-    println!("{:?}",forest);
-    println!("SEEN");
-    println!("{:?}",seen);
-    println!("visible in row: {vis}");
-
+    println!("Highest Scenic Score: {scenic_max}");
 }

@@ -5,7 +5,7 @@ fn main() {
     static CHAR_NUMS: [char; 10] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',];
     static STACK_COUNT: usize = 9;
 
-    let file_path = "src/day_5_inputs_tst.txt";
+    let file_path = "src/day_5_inputs.txt";
     let contents = fs::read_to_string(file_path).expect("Should have been able to read the file");
 
     let mut start = 0;
@@ -37,17 +37,20 @@ fn main() {
             for i in ins_str {
                 ins.push(i.parse::<usize>().unwrap());
             }
-            //if stacks[ins[1]-1].len()<ins[0] {ins[0]=stacks[ins[1]-1].len()}
-            for m in (stacks[ins[1]-1].len()-ins[0])..stacks[ins[1]-1].len() { //ins[0] is the quantity to move
-                let to_move = stacks[ins[1]-1][m];
-                stacks[ins[2]-1].push(to_move); //add to new stack
+            let mut inter: Vec<char> = vec![];
+            for m in 0..ins[0] { //ins[0] is the quantity to move
+                if stacks[ins[1]-1].len() > 0 { //check if theres any left to move
+                    inter.push(stacks[ins[1]-1].pop().unwrap()); //add to new stack
+                }
             }
-            println!("Stack Number {}",line_ct-start);
-            for s in 0..STACK_COUNT {
-                println!("{:?}",stacks[s]);
+            for n in 0..inter.len() {
+                stacks[ins[2]-1].push(inter.pop().unwrap());
             }
         }
         line_ct+=1;
+    }
+    for s in 0..STACK_COUNT {
+        println!("{:?}",stacks[s]);
     }
 }
 
