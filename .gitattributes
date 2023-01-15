@@ -1,10 +1,8 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-day_1/target linguist-generated=true
-day_2/target linguist-generated=true
-day_3/target linguist-generated=true
-day_4/target linguist-generated=true
-day_5/target linguist-generated=true
-day_6/target linguist-generated=true
-day_7/target linguist-generated=true
-day_8/target linguist-generated=true
+day_1/target/* linguist-vendored
+day_2/target/* linguist-vendored
+day_3/target/* linguist-vendored
+day_4/target/* linguist-vendored
+day_5/target/* linguist-vendored
+day_6/target/* linguist-vendored
